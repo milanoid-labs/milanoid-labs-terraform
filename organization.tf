@@ -15,7 +15,4 @@ resource "github_organization_settings" "this" {
   members_can_create_private_repositories = true
 
   web_commit_signoff_required = false
-
-  # Left disabled to avoid locking out org members who don't have 2FA configured.
-  two_factor_requirement_enabled = false
 }
