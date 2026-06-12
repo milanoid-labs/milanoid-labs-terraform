@@ -28,8 +28,8 @@ tofu apply
 - `repositories.tf` - per-repository settings, including the squash-only merge
   strategy applied to every managed repository.
 - `rulesets.tf` - per-repository branch rulesets (e.g. branch protection rules).
-- `codeowners.tf` - pushes a `.github/CODEOWNERS` file to every managed
-  repository.
+- `codeowners.tf` - pushes this repo's `.github/CODEOWNERS` file to every
+  other managed repository.
 
 ## Adding a new repository
 
