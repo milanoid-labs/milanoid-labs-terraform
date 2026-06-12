@@ -46,8 +46,9 @@ Every repository in `local.repositories` is tagged with the `terraform-managed`
 GitHub topic, so managed repos can be distinguished from other repos in the org
 at a glance.
 
-Every managed repository has a `.github/CODEOWNERS` file listing `@milanoid` as
-owner of everything, pushed via `codeowners.tf`.
+Every managed repository gets a `.github/CODEOWNERS` file listing `@milanoid`
+as owner of everything, created/managed via `codeowners.tf` once `tofu apply`
+runs.
 
 ## State
 

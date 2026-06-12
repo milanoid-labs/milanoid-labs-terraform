@@ -14,6 +14,6 @@ resource "github_repository_file" "codeowners" {
   content             = local.codeowners_content
   commit_message      = "Add CODEOWNERS"
   commit_author       = "milanoid"
-  commit_email        = "milanvojnovic@gmail.com"
+  commit_email        = "1455822+milanoid@users.noreply.github.com"
   overwrite_on_create = true
 }
