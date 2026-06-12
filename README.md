@@ -28,8 +28,8 @@ tofu apply
 - `repositories.tf` - per-repository settings, including the squash-only merge
   strategy applied to every managed repository.
 - `rulesets.tf` - per-repository branch rulesets (e.g. branch protection rules).
-- `codeowners.tf` - pushes this repo's `.github/CODEOWNERS` file to every
-  other managed repository.
+- `codeowners.tf` - pushes a `.github/CODEOWNERS` file to every managed
+  repository, including this one.
 
 ## Adding a new repository
 
@@ -47,9 +47,7 @@ GitHub topic, so managed repos can be distinguished from other repos in the org
 at a glance.
 
 Every managed repository has a `.github/CODEOWNERS` file listing `@milanoid` as
-owner of everything. For the other repos this is pushed by `codeowners.tf`; this
-repo's own copy is committed directly and kept in sync with that content
-manually.
+owner of everything, pushed via `codeowners.tf`.
 
 ## State
 
