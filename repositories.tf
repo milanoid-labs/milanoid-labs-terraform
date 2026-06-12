@@ -30,7 +30,7 @@ locals {
       has_issues   = true
       has_projects = true
       has_wiki     = true
-      topics       = ["java", "ci/cd"]
+      topics       = ["java", "ci-cd"]
     }
     "milanoid-labs-terraform" = {
       description  = "OpenTofu code to manage the milanoid-labs GitHub organization"
