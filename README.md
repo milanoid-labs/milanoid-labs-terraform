@@ -37,6 +37,12 @@ OpenTofu create it (`tofu apply`) or, if it already exists, import it:
 tofu import 'github_repository.this["<repo-name>"]' <repo-name>
 ```
 
+## Conventions
+
+Every repository in `local.repositories` is tagged with the `terraform-managed`
+GitHub topic, so managed repos can be distinguished from other repos in the org
+at a glance.
+
 ## State
 
 State is stored locally (`terraform.tfstate`, gitignored). Back it up before making
