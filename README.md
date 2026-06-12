@@ -27,6 +27,7 @@ tofu apply
   privileges, security settings).
 - `repositories.tf` - per-repository settings, including the squash-only merge
   strategy applied to every managed repository.
+- `rulesets.tf` - per-repository branch rulesets (e.g. branch protection rules).
 
 ## Adding a new repository
 

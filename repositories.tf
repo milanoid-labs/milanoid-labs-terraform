@@ -42,7 +42,7 @@ locals {
     }
     "devops-study-app" = {
       description  = "(My) Python project for Mischa's DevOps Masterclass"
-      visibility   = "private"
+      visibility   = "public"
       has_issues   = true
       has_projects = true
       has_wiki     = false
