@@ -28,6 +28,8 @@ tofu apply
 - `repositories.tf` - per-repository settings, including the squash-only merge
   strategy applied to every managed repository.
 - `rulesets.tf` - per-repository branch rulesets (e.g. branch protection rules).
+- `codeowners.tf` - pushes a `.github/CODEOWNERS` file to every managed
+  repository, including this one.
 
 ## Adding a new repository
 
@@ -43,6 +45,10 @@ tofu import 'github_repository.this["<repo-name>"]' <repo-name>
 Every repository in `local.repositories` is tagged with the `terraform-managed`
 GitHub topic, so managed repos can be distinguished from other repos in the org
 at a glance.
+
+Every managed repository gets a `.github/CODEOWNERS` file listing `@milanoid`
+as owner of everything, created/managed via `codeowners.tf` once `tofu apply`
+runs.
 
 ## State
 
