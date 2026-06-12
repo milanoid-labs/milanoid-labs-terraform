@@ -30,7 +30,7 @@ locals {
       has_issues   = true
       has_projects = true
       has_wiki     = true
-      topics       = []
+      topics       = ["java", "ci/cd"]
     }
     "milanoid-labs-terraform" = {
       description  = "OpenTofu code to manage the milanoid-labs GitHub organization"
@@ -38,7 +38,7 @@ locals {
       has_issues   = true
       has_projects = false
       has_wiki     = false
-      topics       = []
+      topics       = ["tofu", "terraform"]
     }
     "devops-study-app" = {
       description  = "(My) Python project for Mischa's DevOps Masterclass"
@@ -46,7 +46,7 @@ locals {
       has_issues   = true
       has_projects = true
       has_wiki     = false
-      topics       = []
+      topics       = ["python", "uv"]
     }
   }
 }
