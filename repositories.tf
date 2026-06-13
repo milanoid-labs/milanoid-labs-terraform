@@ -77,3 +77,9 @@ resource "github_repository" "this" {
     prevent_destroy = true
   }
 }
+
+# https://registry.terraform.io/providers/integrations/github/latest/docs/resources/workflow_repository_permissions
+resource "github_workflow_repository_permissions" "devops_study_app" {
+  repository                   = github_repository.this["devops-study-app"].name
+  default_workflow_permissions = "write"
+}
