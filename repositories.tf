@@ -78,9 +78,8 @@ resource "github_repository" "this" {
   }
 }
 
-# https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_repository_permissions
-resource "github_actions_repository_permissions" "devops_study_app" {
+# https://registry.terraform.io/providers/integrations/github/latest/docs/resources/workflow_repository_permissions
+resource "github_workflow_repository_permissions" "devops_study_app" {
   repository                   = github_repository.this["devops-study-app"].name
-  allowed_actions              = "all"
   default_workflow_permissions = "write"
 }
