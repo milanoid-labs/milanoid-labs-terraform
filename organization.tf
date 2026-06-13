@@ -1,3 +1,14 @@
+# Organization-wide GitHub Actions permissions.
+# default_workflow_permissions must be "write" at the org level so that
+# individual repositories are allowed to set their own write permissions.
+# If the org enforces "read", the repo-level setting is greyed out and ignored.
+# https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_organization_permissions
+resource "github_actions_organization_permissions" "this" {
+  allowed_actions              = "all"
+  default_workflow_permissions = "write"
+  enabled_repositories         = "all"
+}
+
 # Organization-wide settings for milanoid-labs.
 # https://registry.terraform.io/providers/integrations/github/latest/docs/resources/organization_settings
 resource "github_organization_settings" "this" {
