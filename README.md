@@ -50,6 +50,26 @@ Every managed repository gets a `.github/CODEOWNERS` file listing `@milanoid`
 as owner of everything, created/managed via `codeowners.tf` once `tofu apply`
 runs.
 
+## Secrets
+
+`secrets.tf` declares the GitHub Actions secrets used by managed repositories (e.g.
+the PAT release-please uses in `devops-study-app` to create release PRs that can
+trigger other workflows). The secret *resources* are managed here, but their values
+are never committed:
+
+1. Create a classic PAT (Settings → Developer settings → Personal access tokens
+   (classic)) with the `repo` and `workflow` scopes, and an expiry of your choosing.
+2. Export it before running Terraform:
+
+   ```sh
+   export TF_VAR_devops_study_app_pat=<token>
+   ```
+3. Run `tofu plan` / `tofu apply` as usual.
+
+Because GitHub never returns a secret's value, `tofu plan` will always show a diff
+for `plaintext_value` on these resources — this is expected and does not mean the
+secret is out of sync.
+
 ## State
 
 State is stored locally (`terraform.tfstate`, gitignored). Back it up before making
