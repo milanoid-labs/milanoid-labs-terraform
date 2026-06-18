@@ -23,7 +23,7 @@ tofu apply
 
 ## Linting
 
-CI runs `tofu fmt`, `tofu validate`, and `tflint` on every push/PR to `main` (see
+CI runs `tofu fmt`, `tofu init`, `tofu validate`, and `tflint` on every push/PR to `main` (see
 `.github/workflows/lint.yml`). To run the same checks locally:
 
 ```sh
