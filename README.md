@@ -68,30 +68,33 @@ runs.
 
 `secrets.tf` declares the GitHub Actions secrets used by managed repositories (e.g.
 the PAT release-please uses in `devops-study-app` to create release PRs that can
-trigger other workflows). The secret *resources* are managed here, but their values
-are never committed:
+trigger other workflows) and two organization-level secrets, `NEXUS_USERNAME` and
+`NEXUS_PASSWORD` (used by devops-study-app to publish artifacts to Nexus, scoped to
+that repository only via `selected_repository_ids`). The secret *resources* are
+managed here, but their values are never committed.
 
-1. Create a classic PAT (Settings → Developer settings → Personal access tokens
-   (classic)) with the `repo` and `workflow` scopes, and an expiry of your choosing.
-2. Export it before running Terraform:
+Since these variables have no default, every `tofu plan`/`tofu apply` needs a value
+for each of them. Rather than exporting `TF_VAR_*` env vars every session, copy
+`secrets.auto.tfvars.example` to `secrets.auto.tfvars` and fill in real values —
+OpenTofu loads `*.auto.tfvars` automatically, and the file is already covered by the
+`*.tfvars` entry in `.gitignore`:
 
-   ```sh
-   export TF_VAR_devops_study_app_pat=<token>
-   ```
-3. Run `tofu plan` / `tofu apply` as usual.
+```sh
+cp secrets.auto.tfvars.example secrets.auto.tfvars
+# edit secrets.auto.tfvars with real values
+tofu plan
+```
+
+(`TF_VAR_devops_study_app_pat`, `TF_VAR_nexus_username`, `TF_VAR_nexus_password` still
+work as env vars if you prefer not to keep a values file on disk.)
+
+For the PAT specifically: create a classic PAT (Settings → Developer settings →
+Personal access tokens (classic)) with the `repo` and `workflow` scopes, and an expiry
+of your choosing.
 
 Because GitHub never returns a secret's value, `tofu plan` will always show a diff
 for `plaintext_value` on these resources — this is expected and does not mean the
 secret is out of sync.
-
-`NEXUS_USERNAME` and `NEXUS_PASSWORD` are organization-level secrets (used by
-devops-study-app to publish artifacts to Nexus), scoped to that repository only via
-`selected_repository_ids`. Export them before running Terraform:
-
-```sh
-export TF_VAR_nexus_username=<username>
-export TF_VAR_nexus_password=<password>
-```
 
 ## State
 
