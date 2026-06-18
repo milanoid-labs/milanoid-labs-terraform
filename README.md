@@ -21,6 +21,20 @@ tofu plan
 tofu apply
 ```
 
+## Linting
+
+CI runs `tofu fmt`, `tofu validate`, and `tflint` on every push/PR to `main` (see
+`.github/workflows/lint.yml`). To run the same checks locally:
+
+```sh
+brew install opentofu tflint   # or your platform's equivalent
+
+tofu fmt -check -recursive     # checks formatting
+tofu init -backend=false       # provider plugins only, no state/backend needed
+tofu validate                  # checks config validity
+tflint                         # static analysis, see .tflint.hcl
+```
+
 ## Structure
 
 - `organization.tf` - organization-wide settings (default permissions, member
