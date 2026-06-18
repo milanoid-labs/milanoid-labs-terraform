@@ -84,6 +84,15 @@ Because GitHub never returns a secret's value, `tofu plan` will always show a di
 for `plaintext_value` on these resources — this is expected and does not mean the
 secret is out of sync.
 
+`NEXUS_USERNAME` and `NEXUS_PASSWORD` are organization-level secrets (used by
+devops-study-app to publish artifacts to Nexus), scoped to that repository only via
+`selected_repository_ids`. Export them before running Terraform:
+
+```sh
+export TF_VAR_nexus_username=<username>
+export TF_VAR_nexus_password=<password>
+```
+
 ## State
 
 State is stored locally (`terraform.tfstate`, gitignored). Back it up before making
