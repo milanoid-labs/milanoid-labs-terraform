@@ -83,3 +83,24 @@ resource "github_workflow_repository_permissions" "devops_study_app" {
   repository                   = github_repository.this["devops-study-app"].name
   default_workflow_permissions = "write"
 }
+
+# GitHub App installations in this org and their repository access:
+#   - arc-runners-milanoid-labs-org: "All repositories". Intentional, not
+#     managed here - the provider has no resource for the installation-wide
+#     repository_selection setting itself, only for individual repo grants
+#     under "selected" mode.
+#   - sonarqube-milanoid-bot: "All repositories". Same as above.
+#   - Milanoid Renovate Bot (installation id 119949905): "Only select
+#     repositories". Each granted repo is modeled explicitly below.
+# https://registry.terraform.io/providers/integrations/github/latest/docs/resources/app_installation_repository
+locals {
+  renovate_installation_id = "119949905"
+  renovate_repositories    = ["homelab-cluster", "devops-study-app"]
+}
+
+resource "github_app_installation_repository" "renovate" {
+  for_each = toset(local.renovate_repositories)
+
+  installation_id = local.renovate_installation_id
+  repository      = github_repository.this[each.key].name
+}
