@@ -102,5 +102,5 @@ resource "github_app_installation_repository" "renovate" {
   for_each = toset(local.renovate_repositories)
 
   installation_id = local.renovate_installation_id
-  repository      = each.key
+  repository      = github_repository.this[each.key].name
 }
