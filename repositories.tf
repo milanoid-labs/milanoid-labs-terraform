@@ -95,7 +95,7 @@ resource "github_workflow_repository_permissions" "devops_study_app" {
 # https://registry.terraform.io/providers/integrations/github/latest/docs/resources/app_installation_repository
 locals {
   renovate_installation_id = "119949905"
-  renovate_repositories    = ["homelab-cluster"]
+  renovate_repositories    = ["homelab-cluster", "devops-study-app"]
 }
 
 resource "github_app_installation_repository" "renovate" {
