@@ -48,6 +48,14 @@ locals {
       has_wiki     = false
       topics       = ["python", "uv"]
     }
+    "milanoid-aws-terraform" = {
+      description  = "OpenTofu code for my personal ECS lab in AWS"
+      visibility   = "public"
+      has_issues   = true
+      has_projects = false
+      has_wiki     = false
+      topics       = ["tofu", "terraform", "aws", "ecs"]
+    }
   }
 }
 
