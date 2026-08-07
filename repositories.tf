@@ -56,7 +56,21 @@ locals {
       has_wiki     = false
       topics       = ["tofu", "terraform", "aws", "ecs"]
     }
+    "LFS256-code" = {
+      description  = "Code for DevOps and Workflow Management with Argo (LFS256)"
+      visibility   = "public"
+      has_issues   = true
+      has_projects = false
+      has_wiki     = false
+      topics       = ["argo", "gitops"]
+    }
+
   }
+}
+
+import {
+  to = github_repository.this["LFS256-code"]
+  id = "LFS256-code"
 }
 
 # https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository
