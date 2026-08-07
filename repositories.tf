@@ -68,11 +68,6 @@ locals {
   }
 }
 
-import {
-  to = github_repository.this["LFS256-code"]
-  id = "LFS256-code"
-}
-
 # https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository
 resource "github_repository" "this" {
   for_each = local.repositories
