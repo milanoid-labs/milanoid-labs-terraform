@@ -1,0 +1,43 @@
+name: Test Concurrency
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Identifier for this run (for logging)'
+        required: true
+      sleep_seconds:
+        description: 'How long to hold the lock in the critical section'
+        default: '30'
+
+jobs:
+  validation:
+    runs-on: homelab-runners
+    steps:
+      - name: Simulate validation (runs in parallel)
+        run: |
+          echo "::notice::Run '${{ inputs.run_id }}' - Validation started at $(date '+%H:%M:%S')"
+          sleep 5
+          echo "::notice::Run '${{ inputs.run_id }}' - Validation completed at $(date '+%H:%M:%S')"
+
+  critical-section:
+    needs: validation
+    runs-on: homelab-runners
+    concurrency:
+      group: test-concurrency-group
+      queue: max  # Queue up to 100 pending runs instead of canceling them
+    steps:
+      - name: Simulate critical section (serialized)
+        run: |
+          echo "::warning::Run '${{ inputs.run_id }}' ENTERED critical section at $(date '+%H:%M:%S')"
+          echo "Holding lock for ${{ inputs.sleep_seconds }} seconds..."
+          sleep ${{ inputs.sleep_seconds }}
+          echo "::warning::Run '${{ inputs.run_id }}' EXITED critical section at $(date '+%H:%M:%S')"
+
+  post-critical:
+    needs: critical-section
+    runs-on: homelab-runners
+    steps:
+      - name: Post-critical work
+        run: |
+          echo "::notice::Run '${{ inputs.run_id }}' - Post-critical work completed at $(date '+%H:%M:%S')"
