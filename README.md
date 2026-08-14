@@ -98,6 +98,4 @@ secret is out of sync.
 
 ## State
 
-State is stored locally (`terraform.tfstate`, gitignored). Back it up before making
-changes, and consider migrating to a remote backend (e.g. HCP Terraform) if more
-than one person manages this organization.
+In backend AWS S3 bucket. The bucket was created manually via AWS Console. It's a general type, private, versioned and encrypted (SSE-S3/AES256). 
