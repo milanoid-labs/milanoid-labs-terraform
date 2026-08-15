@@ -64,6 +64,15 @@ locals {
       has_wiki     = false
       topics       = ["argo", "gitops"]
     }
+    "import-me-tofu" = {
+      description  = "test tofu import feature"
+      visibility   = "public"
+      has_issues   = true
+      has_projects = false
+      has_wiki     = false
+      topics       = []
+    }
+
 
   }
 }
