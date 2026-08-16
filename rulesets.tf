@@ -15,7 +15,6 @@ resource "github_repository_ruleset" "devops_study_app_main" {
   # Allow org admins (e.g. the OpenTofu-managed automation in this repo) to
   # push directly to main, bypassing the pull_request rule below.
   bypass_actors {
-    actor_id    = 1
     actor_type  = "OrganizationAdmin"
     bypass_mode = "always"
   }
