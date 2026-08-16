@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 1.12.0"
 
   backend "s3" {
-    bucket       = "milanoid-labs-terraform-tofu-state"
+    bucket       = local.bucket_name
     key          = "bootstrap/terraform.tfstate"
     use_lockfile = true
     region       = "eu-central-1"
@@ -17,12 +17,26 @@ terraform {
       source  = "hashicorp/aws"
       version = "6.60.0"
     }
+    github = {
+      source  = "integrations/github"
+      version = "~> 6.0"
+    }
   }
 }
 
 provider "aws" {
   profile = "milanoid"
   region  = "eu-central-1"
+}
+
+provider "github" {
+  owner = "milanoid-labs"
+}
+
+locals {
+  aws_region  = "eu-central-1"
+  repository  = "milanoid-labs-terraform"
+  bucket_name = "milanoid-labs-terraform-tofu-state"
 }
 
 resource "aws_iam_openid_connect_provider" "github__milanoid_labs_milanoid_labs_terraform" {
@@ -160,6 +174,31 @@ resource "aws_iam_role_policy" "github_actions_apply_s3" {
       },
     ]
   })
+}
+
+
+resource "github_actions_variable" "aws_region" {
+  repository    = local.repository
+  variable_name = "AWS_REGION"
+  value         = local.aws_region
+}
+
+resource "github_actions_variable" "aws_tofu_state_bucket" {
+  repository    = local.repository
+  variable_name = "AWS_TOFU_STATE_BUCKET"
+  value         = local.bucket_name
+}
+
+resource "github_actions_variable" "aws_plan_role_arn" {
+  repository    = local.repository
+  variable_name = "AWS_PLAN_ROLE_ARN"
+  value         = aws_iam_role.github_actions_plan.arn
+}
+
+resource "github_actions_variable" "aws_apply_role_arn" {
+  repository    = local.repository
+  variable_name = "AWS_APPLY_ROLE_ARN"
+  value         = aws_iam_role.github_actions_apply.arn
 }
 
 
