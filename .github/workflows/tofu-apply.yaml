@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  plan:
+  apply:
     runs-on: homelab-runners
     
     env:
