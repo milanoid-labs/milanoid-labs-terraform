@@ -6,7 +6,10 @@ resource "github_actions_secret" "devops_study_app_pat" {
 }
 
 locals {
-  nexus_secret_repository_ids = [github_repository.this["devops-study-app"].repo_id]
+  nexus_secret_repository_ids = [
+    github_repository.this["devops-study-app"].repo_id,
+    github_repository.this["milanoid-labs-terraform"].repo_id
+  ]
 }
 
 # https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_organization_secret
