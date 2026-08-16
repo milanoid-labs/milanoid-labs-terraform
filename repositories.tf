@@ -29,7 +29,7 @@ locals {
       visibility   = "public"
       has_issues   = true
       has_projects = true
-      has_wiki     = true
+      has_wiki     = false
       topics       = ["java", "ci-cd"]
     }
     "milanoid-labs-terraform" = {
