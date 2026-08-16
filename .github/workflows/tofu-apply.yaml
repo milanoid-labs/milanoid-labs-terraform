@@ -1,7 +1,7 @@
-name: Tofu Plan
+name: Tofu Apply
 
 on:
-  pull_request:
+  push:
     branches: [main]
 
 permissions:
@@ -9,8 +9,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: tofu-plan-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  group: tofu-apply
+  cancel-in-progress: false
 
 jobs:
   plan:
@@ -41,7 +41,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
         with:
           aws-region: ${{ vars.AWS_REGION }}
-          role-to-assume: ${{ vars.AWS_PLAN_ROLE_ARN }}
+          role-to-assume: ${{ vars.AWS_APPLY_ROLE_ARN }}
 
       - name: tofu init
         id: tofu-init
@@ -49,4 +49,8 @@ jobs:
 
       - name: tofu plan
         id: tofu-plan
-        run: tofu plan
+        run: tofu plan -out tfplan
+
+      - name: tofu apply
+        id: tofu-apply
+        run: tofu apply -auto-approve tfplan
