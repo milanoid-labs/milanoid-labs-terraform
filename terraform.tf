@@ -6,8 +6,8 @@ terraform {
     key          = "prod/terraform.tfstate"
     use_lockfile = true
     region       = "eu-central-1"
-    profile      = "milanoid" # this will work on my machine only, if tofu running in CI it won't work
-    encrypt      = true       # to make it explicit, S3 default encryption is enabled in AWS
+    # profile      = "milanoid" # uncomment this if running locally
+    encrypt = true # to make it explicit, S3 default encryption is enabled in AWS
   }
 
   required_providers {
