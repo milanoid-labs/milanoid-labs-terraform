@@ -36,7 +36,7 @@ locals {
       description  = "OpenTofu code to manage the milanoid-labs GitHub organization"
       visibility   = "public"
       has_issues   = true
-      has_projects = false
+      has_projects = true
       has_wiki     = false
       topics       = ["tofu", "terraform"]
     }
