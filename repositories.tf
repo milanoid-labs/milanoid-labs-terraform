@@ -72,8 +72,14 @@ locals {
       has_wiki     = false
       topics       = []
     }
-
-
+    "milanoid-net-terraform" = {
+      description  = "Cloudflare milanoid.net Terraform configuration"
+      visibility   = "public"
+      has_issues   = true
+      has_projects = false
+      has_wiki     = false
+      topics       = ["tofu", "terraform", "cloudflare", "dns"]
+    }
   }
 }
 
