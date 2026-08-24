@@ -25,3 +25,30 @@ resource "github_repository_ruleset" "devops_study_app_main" {
     pull_request {}
   }
 }
+resource "github_repository_ruleset" "homelab_cluster" {
+  enforcement = "active"
+  name        = "renovate-minimumReleaseAge"
+  repository  = "homelab-cluster"
+  target      = "branch"
+
+  bypass_actors {
+    actor_id    = 0
+    actor_type  = "OrganizationAdmin"
+    bypass_mode = "always"
+  }
+
+  rules {
+    deletion         = true
+    non_fast_forward = true
+
+    required_status_checks {
+      do_not_enforce_on_create             = false
+      strict_required_status_checks_policy = false
+
+      required_check {
+        context        = "renovate/stability-days"
+        integration_id = 3219089
+      }
+    }
+  }
+}
