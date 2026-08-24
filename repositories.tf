@@ -134,17 +134,17 @@ resource "github_repository" "this" {
 
   is_template = each.value.is_template
   auto_init   = each.value.auto_init
-
-  # Create from template-repo instead of from scratch, so the repo starts
-  # with a default branch/commit already in place (see #36: pushing
-  # CODEOWNERS to a repo with no branches yet fails with a 404).
-  dynamic "template" {
-    for_each = each.value.use_template ? [1] : []
-    content {
-      owner      = var.github_organization
-      repository = github_repository.this["template-repo"].name
-    }
-  }
+  #
+  # # Create from template-repo instead of from scratch, so the repo starts
+  # # with a default branch/commit already in place (see #36: pushing
+  # # CODEOWNERS to a repo with no branches yet fails with a 404).
+  # dynamic "template" {
+  #   for_each = each.value.use_template ? [1] : []
+  #   content {
+  #     owner      = var.github_organization
+  #     repository = github_repository.this["template-repo"].name
+  #   }
+  # }
 
   allow_merge_commit          = local.merge_strategy.allow_merge_commit
   allow_squash_merge          = local.merge_strategy.allow_squash_merge
