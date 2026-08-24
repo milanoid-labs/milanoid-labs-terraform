@@ -5,6 +5,14 @@ locals {
   # non-managed repos in the org.
   managed_topic = "terraform-managed"
 
+  # Referenced by name (not via github_repository.this["template-repo"]) in
+  # the `template` block below: since template-repo is itself one of the
+  # for_each instances of github_repository.this, referencing another
+  # instance of the same resource from within it is a self-reference -
+  # OpenTofu builds the dependency graph per-resource, not per-instance, so
+  # that would make github_repository.this depend on itself and cycle.
+  template_repository_name = "template-repo"
+
   merge_strategy = {
     allow_merge_commit          = false
     allow_squash_merge          = true
@@ -134,17 +142,17 @@ resource "github_repository" "this" {
 
   is_template = each.value.is_template
   auto_init   = each.value.auto_init
-  #
-  # # Create from template-repo instead of from scratch, so the repo starts
-  # # with a default branch/commit already in place (see #36: pushing
-  # # CODEOWNERS to a repo with no branches yet fails with a 404).
-  # dynamic "template" {
-  #   for_each = each.value.use_template ? [1] : []
-  #   content {
-  #     owner      = var.github_organization
-  #     repository = github_repository.this["template-repo"].name
-  #   }
-  # }
+
+  # Create from template-repo instead of from scratch, so the repo starts
+  # with a default branch/commit already in place (see #36: pushing
+  # CODEOWNERS to a repo with no branches yet fails with a 404).
+  dynamic "template" {
+    for_each = each.value.use_template ? [1] : []
+    content {
+      owner      = var.github_organization
+      repository = local.template_repository_name
+    }
+  }
 
   allow_merge_commit          = local.merge_strategy.allow_merge_commit
   allow_squash_merge          = local.merge_strategy.allow_squash_merge
