@@ -37,6 +37,13 @@ resource "github_repository_ruleset" "homelab_cluster" {
     bypass_mode = "always"
   }
 
+  conditions {
+    ref_name {
+      exclude = []
+      include = ["~DEFAULT_BRANCH"]
+    }
+  }
+
   rules {
     deletion         = true
     non_fast_forward = true
