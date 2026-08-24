@@ -99,10 +99,16 @@ workflows — only the repo root is ever planned/applied by CI.
 - `rulesets.tf` - per-repository branch rulesets (e.g. branch protection rules).
 - `codeowners.tf` - pushes a `.github/CODEOWNERS` file to every managed
   repository, including this one.
+- `template_repository.tf` - seeds `template-repo`'s README and `.gitignore`
+  (the repo itself is declared in `repositories.tf`, like every other
+  managed repository).
 
 ## Adding a new repository
 
-Add an entry to the `local.repositories` map in `repositories.tf`, then either let
+Add an entry to the `local.repositories` map in `repositories.tf`, setting
+`use_template = true` so the repo is created from `template-repo` (this
+gives it an initialized `main` branch immediately, so `codeowners.tf`'s
+CODEOWNERS push doesn't 404 against a branch-less repo). Then either let
 OpenTofu create it (`tofu apply`) or, if it already exists, import it:
 
 ```sh
@@ -118,6 +124,13 @@ at a glance.
 Every managed repository gets a `.github/CODEOWNERS` file listing `@milanoid`
 as owner of everything, created/managed via `codeowners.tf` once `tofu apply`
 runs.
+
+Each entry in `local.repositories` also carries `is_template`, `auto_init`,
+and `use_template`: `is_template` marks a repo as usable as a GitHub template
+(only `template-repo` sets this); `auto_init` asks GitHub to create an
+initial commit on creation; `use_template` creates the repo from
+`template-repo` instead of from scratch. New entries should normally leave
+`is_template`/`auto_init` `false` and set `use_template = true`.
 
 ## Secrets
 

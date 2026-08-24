@@ -5,6 +5,14 @@ locals {
   # non-managed repos in the org.
   managed_topic = "terraform-managed"
 
+  # Referenced by name (not via github_repository.this["template-repo"]) in
+  # the `template` block below: since template-repo is itself one of the
+  # for_each instances of github_repository.this, referencing another
+  # instance of the same resource from within it is a self-reference -
+  # OpenTofu builds the dependency graph per-resource, not per-instance, so
+  # that would make github_repository.this depend on itself and cycle.
+  template_repository_name = "template-repo"
+
   merge_strategy = {
     allow_merge_commit          = false
     allow_squash_merge          = true
@@ -23,6 +31,9 @@ locals {
       has_projects = true
       has_wiki     = true
       topics       = ["fluxcd", "kubernetes"]
+      is_template  = false
+      auto_init    = false
+      use_template = false
     }
     "fizz-buzz" = {
       description  = ""
@@ -31,6 +42,9 @@ locals {
       has_projects = true
       has_wiki     = false
       topics       = ["java", "ci-cd"]
+      is_template  = false
+      auto_init    = false
+      use_template = false
     }
     "milanoid-labs-terraform" = {
       description  = "OpenTofu code to manage the milanoid-labs GitHub organization"
@@ -39,6 +53,9 @@ locals {
       has_projects = true
       has_wiki     = false
       topics       = ["tofu", "terraform"]
+      is_template  = false
+      auto_init    = false
+      use_template = false
     }
     "devops-study-app" = {
       description  = "(My) Python project for Mischa's DevOps Masterclass"
@@ -47,6 +64,9 @@ locals {
       has_projects = true
       has_wiki     = false
       topics       = ["python", "uv"]
+      is_template  = false
+      auto_init    = false
+      use_template = false
     }
     "milanoid-aws-terraform" = {
       description  = "OpenTofu code for my personal ECS lab in AWS"
@@ -55,6 +75,9 @@ locals {
       has_projects = false
       has_wiki     = false
       topics       = ["tofu", "terraform", "aws", "ecs"]
+      is_template  = false
+      auto_init    = false
+      use_template = false
     }
     "LFS256-code" = {
       description  = "Code for DevOps and Workflow Management with Argo (LFS256)"
@@ -63,6 +86,9 @@ locals {
       has_projects = false
       has_wiki     = false
       topics       = ["argo", "gitops"]
+      is_template  = false
+      auto_init    = false
+      use_template = false
     }
     "import-me-tofu" = {
       description  = "test tofu import feature"
@@ -71,6 +97,9 @@ locals {
       has_projects = false
       has_wiki     = false
       topics       = []
+      is_template  = false
+      auto_init    = false
+      use_template = false
     }
     "milanoid-net-terraform" = {
       description  = "Cloudflare milanoid.net Terraform configuration"
@@ -79,6 +108,20 @@ locals {
       has_projects = false
       has_wiki     = false
       topics       = ["tofu", "terraform", "cloudflare", "dns"]
+      is_template  = false
+      auto_init    = false
+      use_template = false
+    }
+    "template-repo" = {
+      description  = "Template used to scaffold new milanoid-labs repositories"
+      visibility   = "public"
+      has_issues   = true
+      has_projects = false
+      has_wiki     = false
+      topics       = []
+      is_template  = true
+      auto_init    = true
+      use_template = false
     }
   }
 }
@@ -96,6 +139,20 @@ resource "github_repository" "this" {
   has_wiki     = each.value.has_wiki
 
   topics = concat(each.value.topics, [local.managed_topic])
+
+  is_template = each.value.is_template
+  auto_init   = each.value.auto_init
+
+  # Create from template-repo instead of from scratch, so the repo starts
+  # with a default branch/commit already in place (see #36: pushing
+  # CODEOWNERS to a repo with no branches yet fails with a 404).
+  dynamic "template" {
+    for_each = each.value.use_template ? [1] : []
+    content {
+      owner      = var.github_organization
+      repository = local.template_repository_name
+    }
+  }
 
   allow_merge_commit          = local.merge_strategy.allow_merge_commit
   allow_squash_merge          = local.merge_strategy.allow_squash_merge
