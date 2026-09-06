@@ -114,7 +114,7 @@ locals {
     }
     "home-dashboard" = {
       description  = "Mobile-friendly dashboard for my Eaton xComfort smart home controller"
-      visibility   = "private"
+      visibility   = "public"
       has_issues   = true
       has_projects = true
       has_wiki     = false
