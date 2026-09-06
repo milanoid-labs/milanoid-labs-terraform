@@ -112,6 +112,17 @@ locals {
       auto_init    = false
       use_template = false
     }
+    "home-dashboard" = {
+      description  = "Mobile-friendly dashboard for my Eaton xComfort smart home controller"
+      visibility   = "public"
+      has_issues   = true
+      has_projects = true
+      has_wiki     = false
+      topics       = ["python", "uv", "home-automation"]
+      is_template  = false
+      auto_init    = false
+      use_template = true
+    }
     "template-repo" = {
       description  = "Template used to scaffold new milanoid-labs repositories"
       visibility   = "public"
@@ -173,6 +184,11 @@ resource "github_workflow_repository_permissions" "devops_study_app" {
   default_workflow_permissions = "write"
 }
 
+resource "github_workflow_repository_permissions" "home_dashboard" {
+  repository                   = github_repository.this["home-dashboard"].name
+  default_workflow_permissions = "write"
+}
+
 # GitHub App installations in this org and their repository access:
 #   - arc-runners-milanoid-labs-org: "All repositories". Intentional, not
 #     managed here - the provider has no resource for the installation-wide
@@ -184,7 +200,7 @@ resource "github_workflow_repository_permissions" "devops_study_app" {
 # https://registry.terraform.io/providers/integrations/github/latest/docs/resources/app_installation_repository
 locals {
   renovate_installation_id = "119949905"
-  renovate_repositories    = ["homelab-cluster", "devops-study-app"]
+  renovate_repositories    = ["homelab-cluster", "devops-study-app", "home-dashboard"]
 }
 
 resource "github_app_installation_repository" "renovate" {

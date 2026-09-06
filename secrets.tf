@@ -5,10 +5,17 @@ resource "github_actions_secret" "devops_study_app_pat" {
   plaintext_value = var.devops_study_app_pat
 }
 
+resource "github_actions_secret" "home_dashboard_pat" {
+  repository      = github_repository.this["home-dashboard"].name
+  secret_name     = "HOME_DASHBOARD"
+  plaintext_value = var.home_dashboard_pat
+}
+
 locals {
   nexus_secret_repository_ids = [
     github_repository.this["devops-study-app"].repo_id,
-    github_repository.this["milanoid-labs-terraform"].repo_id
+    github_repository.this["milanoid-labs-terraform"].repo_id,
+    github_repository.this["home-dashboard"].repo_id
   ]
 }
 
