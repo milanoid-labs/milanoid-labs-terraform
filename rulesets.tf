@@ -25,6 +25,32 @@ resource "github_repository_ruleset" "devops_study_app_main" {
     pull_request {}
   }
 }
+resource "github_repository_ruleset" "home_dashboard_main" {
+  name        = "main"
+  repository  = github_repository.this["home-dashboard"].name
+  target      = "branch"
+  enforcement = "active"
+
+  conditions {
+    ref_name {
+      include = ["~DEFAULT_BRANCH"]
+      exclude = []
+    }
+  }
+
+  # Allow org admins (e.g. the OpenTofu-managed automation in this repo) to
+  # push directly to main, bypassing the pull_request rule below.
+  bypass_actors {
+    actor_type  = "OrganizationAdmin"
+    bypass_mode = "always"
+  }
+
+  rules {
+    deletion = true
+
+    pull_request {}
+  }
+}
 resource "github_repository_ruleset" "homelab_cluster" {
   enforcement = "active"
   name        = "renovate-minimumReleaseAge"
