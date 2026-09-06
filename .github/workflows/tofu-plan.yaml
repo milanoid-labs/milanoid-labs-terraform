@@ -20,6 +20,7 @@ jobs:
       TF_VAR_nexus_username: ${{ secrets.NEXUS_USERNAME}}
       TF_VAR_nexus_password: ${{ secrets.NEXUS_PASSWORD}}
       TF_VAR_devops_study_app_pat: ${{ secrets.TF_VAR_devops_study_app_pat }}
+      TF_VAR_home_dashboard_pat: ${{ secrets.TF_VAR_HOME_DASHBOARD_PAT }}
       GITHUB_TOKEN: ${{ secrets.TF_ADMIN_GITHUB_TOKEN }}
   
     steps:
