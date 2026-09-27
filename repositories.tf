@@ -112,6 +112,19 @@ locals {
       auto_init    = false
       use_template = false
     }
+    # Private: the tailnet config names family devices and, in the ACL,
+    # eventually family members' emails.
+    "milanoid-tailscale-terraform" = {
+      description  = "OpenTofu configuration for the milanoid Tailscale tailnet"
+      visibility   = "private"
+      has_issues   = true
+      has_projects = false
+      has_wiki     = false
+      topics       = ["tofu", "terraform", "tailscale"]
+      is_template  = false
+      auto_init    = false
+      use_template = true
+    }
     "home-dashboard" = {
       description  = "Mobile-friendly dashboard for my Eaton xComfort smart home controller"
       visibility   = "public"
