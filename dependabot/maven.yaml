@@ -1,0 +1,4 @@
+- package-ecosystem: maven
+  directory: /
+  schedule:
+    interval: weekly
