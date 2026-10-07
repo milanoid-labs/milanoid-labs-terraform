@@ -99,6 +99,8 @@ workflows — only the repo root is ever planned/applied by CI.
 - `rulesets.tf` - per-repository branch rulesets (e.g. branch protection rules).
 - `codeowners.tf` - pushes a `.github/CODEOWNERS` file to every managed
   repository, including this one.
+- `dependabot.tf` + `dependabot/` - pushes a `.github/dependabot.yml`
+  (version updates) to repositories that opt in; see [Dependabot](#dependabot).
 - `template_repository.tf` - seeds `template-repo`'s README and `.gitignore`
   (the repo itself is declared in `repositories.tf`, like every other
   managed repository).
@@ -131,6 +133,22 @@ and `use_template`: `is_template` marks a repo as usable as a GitHub template
 initial commit on creation; `use_template` creates the repo from
 `template-repo` instead of from scratch. New entries should normally leave
 `is_template`/`auto_init` `false` and set `use_template = true`.
+
+## Dependabot
+
+Dependabot version updates are opt-in: set `dependabot = true` on a repository
+in `local.repositories`. `dependabot.tf` then pushes a single
+`.github/dependabot.yml` (the only file name GitHub reads) to its default
+branch, built from per-ecosystem templates in `dependabot/`:
+
+- `github-actions` is always included.
+- Further ecosystems come from the repository's topics via
+  `local.dependabot_topic_ecosystems` (e.g. `java` -> `maven`,
+  `python` -> `uv`); all matches are merged into one `updates:` list.
+
+To support a new ecosystem, add `dependabot/<ecosystem>.yaml` (one `updates:`
+list item, at column 0) and map a topic to it. Keep repositories updated by
+Renovate (`local.renovate_repositories`) opted out to avoid duplicate PRs.
 
 ## Secrets
 

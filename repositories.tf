@@ -34,6 +34,7 @@ locals {
       is_template  = false
       auto_init    = false
       use_template = false
+      dependabot   = false
     }
     "fizz-buzz" = {
       description  = ""
@@ -45,6 +46,7 @@ locals {
       is_template  = false
       auto_init    = false
       use_template = false
+      dependabot   = true
     }
     "milanoid-labs-terraform" = {
       description  = "OpenTofu code to manage the milanoid-labs GitHub organization"
@@ -56,6 +58,7 @@ locals {
       is_template  = false
       auto_init    = false
       use_template = false
+      dependabot   = false
     }
     "devops-study-app" = {
       description  = "(My) Python project for Mischa's DevOps Masterclass"
@@ -67,6 +70,7 @@ locals {
       is_template  = false
       auto_init    = false
       use_template = false
+      dependabot   = false
     }
     "milanoid-aws-terraform" = {
       description  = "OpenTofu code for my personal ECS lab in AWS"
@@ -78,6 +82,7 @@ locals {
       is_template  = false
       auto_init    = false
       use_template = false
+      dependabot   = false
     }
     "LFS256-code" = {
       description  = "Code for DevOps and Workflow Management with Argo (LFS256)"
@@ -89,6 +94,7 @@ locals {
       is_template  = false
       auto_init    = false
       use_template = false
+      dependabot   = false
     }
     "import-me-tofu" = {
       description  = "test tofu import feature"
@@ -100,6 +106,7 @@ locals {
       is_template  = false
       auto_init    = false
       use_template = false
+      dependabot   = false
     }
     "milanoid-net-terraform" = {
       description  = "Cloudflare milanoid.net Terraform configuration"
@@ -111,6 +118,7 @@ locals {
       is_template  = false
       auto_init    = false
       use_template = false
+      dependabot   = false
     }
     # Private: the tailnet config names family devices and, in the ACL,
     # eventually family members' emails.
@@ -124,6 +132,7 @@ locals {
       is_template  = false
       auto_init    = false
       use_template = true
+      dependabot   = false
     }
     "home-dashboard" = {
       description  = "Mobile-friendly dashboard for my Eaton xComfort smart home controller"
@@ -135,6 +144,7 @@ locals {
       is_template  = false
       auto_init    = false
       use_template = true
+      dependabot   = false
     }
     "template-repo" = {
       description  = "Template used to scaffold new milanoid-labs repositories"
@@ -146,6 +156,7 @@ locals {
       is_template  = true
       auto_init    = true
       use_template = false
+      dependabot   = false
     }
   }
 }
