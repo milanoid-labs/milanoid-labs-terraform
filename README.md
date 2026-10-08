@@ -83,6 +83,8 @@ bootstrap reasons as the AWS roles) and referenced by the workflows:
   personal token — see the [Secrets](#secrets) section below for why.
 - `TF_VAR_devops_study_app_pat` — the same value used locally (see
   [Secrets](#secrets)), supplied to CI the same way.
+- `TF_VAR_SONAR_TOKEN` — the SonarQube token behind the `SONAR_TOKEN`
+  Dependabot organization secret (see [Secrets](#secrets)).
 - `NEXUS_USERNAME` / `NEXUS_PASSWORD` — already existing organization secrets
   (declared in `secrets.tf`), whose visibility now also includes this repo itself
   so the workflows can read them.
@@ -156,7 +158,12 @@ Renovate (`local.renovate_repositories`) opted out to avoid duplicate PRs.
 the PAT release-please uses in `devops-study-app` to create release PRs that can
 trigger other workflows) and two organization-level secrets, `NEXUS_USERNAME` and
 `NEXUS_PASSWORD` (used by devops-study-app to publish artifacts to Nexus, scoped to
-that repository only via `selected_repository_ids`). The secret *resources* are
+that repository only via `selected_repository_ids`). It also declares the
+`SONAR_TOKEN` Dependabot organization secret: workflow runs triggered by
+Dependabot PRs get only Dependabot secrets, never Actions secrets, so without it
+the Sonar scan on Dependabot PRs fails with HTTP 401. Because those runs execute
+unreviewed upstream code, the token must only have the Execute Analysis
+permission. The secret *resources* are
 managed here, but their values are never committed.
 
 Since these variables have no default, every `tofu plan`/`tofu apply` needs a value
@@ -171,7 +178,7 @@ cp secrets.auto.tfvars.example secrets.auto.tfvars
 tofu plan
 ```
 
-(`TF_VAR_devops_study_app_pat`, `TF_VAR_nexus_username`, `TF_VAR_nexus_password` still
+(`TF_VAR_devops_study_app_pat`, `TF_VAR_nexus_username`, `TF_VAR_nexus_password`, `TF_VAR_sonar_token` still
 work as env vars if you prefer not to keep a values file on disk.)
 
 For the PAT specifically: create a classic PAT (Settings → Developer settings →
