@@ -8,6 +8,15 @@ resource "github_actions_organization_workflow_permissions" "this" {
   default_workflow_permissions = "write"
 }
 
+# SonarQube server URL, read by workflows as ${{ vars.SONAR_HOST_URL }}.
+# Visible to all repositories, matching the sonarqube-milanoid-bot app installation.
+# https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_organization_variable
+resource "github_actions_organization_variable" "sonar_host_url" {
+  variable_name = "SONAR_HOST_URL"
+  visibility    = "all"
+  value         = var.sonar_host_url
+}
+
 # Organization-wide settings for milanoid-labs.
 # https://registry.terraform.io/providers/integrations/github/latest/docs/resources/organization_settings
 resource "github_organization_settings" "this" {

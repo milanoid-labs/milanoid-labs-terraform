@@ -182,6 +182,14 @@ Because GitHub never returns a secret's value, `tofu plan` will always show a di
 for `plaintext_value` on these resources — this is expected and does not mean the
 secret is out of sync.
 
+### Organization variables
+
+Non-secret values shared by workflows are organization-level Actions variables.
+`SONAR_HOST_URL` (declared in `organization.tf`, visible to all repositories) is
+the SonarQube server URL that workflows read as `${{ vars.SONAR_HOST_URL }}`. Its
+value comes from `var.sonar_host_url`, which defaults to the LAN Sonar server, so
+neither `secrets.auto.tfvars` nor CI has to supply it.
+
 ### The CI PAT (`TF_ADMIN_GITHUB_TOKEN`)
 
 CI authenticates the `github` provider with its own dedicated classic PAT
