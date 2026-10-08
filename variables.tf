@@ -28,6 +28,12 @@ variable "nexus_password" {
   sensitive   = true
 }
 
+variable "sonar_token" {
+  description = "SonarQube token (Execute Analysis permission only) exposed to Dependabot PR workflows as the SONAR_TOKEN Dependabot organization secret. Provide via the TF_VAR_sonar_token environment variable; never commit a value."
+  type        = string
+  sensitive   = true
+}
+
 variable "sonar_host_url" {
   description = "Base URL of the SonarQube server, exposed to workflows as the SONAR_HOST_URL organization Actions variable."
   type        = string
