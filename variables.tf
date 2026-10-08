@@ -27,3 +27,9 @@ variable "nexus_password" {
   type        = string
   sensitive   = true
 }
+
+variable "sonar_host_url" {
+  description = "Base URL of the SonarQube server, exposed to workflows as the SONAR_HOST_URL organization Actions variable."
+  type        = string
+  default     = "http://sonar.milanoid.net:9000"
+}
