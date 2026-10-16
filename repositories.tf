@@ -134,6 +134,21 @@ locals {
       use_template = true
       dependabot   = false
     }
+    # Public: Nexus config holds no secrets (credentials are CI secrets / tfvars), and
+    # it doubles as a reference. CI runs on homelab-runners, the only runners on the
+    # LAN that can reach Nexus (192.168.1.204:8081).
+    "nexus-config-terraform" = {
+      description  = "OpenTofu configuration for the homelab Nexus Repository (repos, roles, users)"
+      visibility   = "public"
+      has_issues   = true
+      has_projects = false
+      has_wiki     = false
+      topics       = ["tofu", "terraform", "nexus"]
+      is_template  = false
+      auto_init    = false
+      use_template = true
+      dependabot   = false
+    }
     "home-dashboard" = {
       description  = "Mobile-friendly dashboard for my Eaton xComfort smart home controller"
       visibility   = "public"
