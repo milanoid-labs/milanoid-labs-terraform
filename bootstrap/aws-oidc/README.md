@@ -62,6 +62,21 @@ plane, not by the runner machine.
   directly — so there's no manual copy-paste of an ARN anywhere to go stale if a
   role is ever recreated.
 
+## Other OpenTofu repos (`tofu_repos.tf`)
+
+The same plan/apply role pair and the same four repo variables, generated for every
+repo in `local.tofu_repos`. **To onboard a new tofu repo, add its name there and
+apply locally**, with no copied `bootstrap/` folder in the new repo. Its workflows use
+`vars.AWS_PLAN_ROLE_ARN` / `vars.AWS_APPLY_ROLE_ARN` / `vars.AWS_REGION` as usual,
+and its backend key must be `<repo>/terraform.tfstate`.
+
+Each pair is scoped to that repo's own state key, never a wildcard: state files hold
+secrets, so one org-wide role would let any repo read every other repo's state.
+
+`milanoid-tailscale-terraform` and `milanoid-net-terraform` still have their own
+`bootstrap/aws-oidc` and can move here with `import` blocks. The role names and ARNs
+stay the same, so their workflows don't change.
+
 ## Why this is separate and applied locally
 
 This module's whole purpose is to grant CI its AWS credentials — which means CI
