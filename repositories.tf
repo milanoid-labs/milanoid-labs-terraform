@@ -149,6 +149,21 @@ locals {
       use_template = true
       dependabot   = false
     }
+    # Public: VM-based GitHub Actions runners for the homelab (KubeVirt + actions/scaleset):
+    # the runner VM disk image (vm-image/) and the autoscaler. No secrets in the repo; CI
+    # runs on homelab-runners, which reach Nexus (192.168.1.204:8081) to push the image.
+    "kubevirt-scaleset" = {
+      description  = "KubeVirt VM GitHub Actions runners: runner VM image and actions/scaleset autoscaler"
+      visibility   = "public"
+      has_issues   = true
+      has_projects = false
+      has_wiki     = false
+      topics       = ["kubevirt", "github-actions", "go", "homelab"]
+      is_template  = false
+      auto_init    = false
+      use_template = true
+      dependabot   = false
+    }
     "home-dashboard" = {
       description  = "Mobile-friendly dashboard for my Eaton xComfort smart home controller"
       visibility   = "public"
