@@ -78,6 +78,33 @@ resource "github_repository_ruleset" "nexus_config_terraform_main" {
     pull_request {}
   }
 }
+# Public, so the free plan enforces this: a push to main builds and publishes the runner VM image.
+resource "github_repository_ruleset" "kubevirt_scaleset_main" {
+  name        = "main"
+  repository  = github_repository.this["kubevirt-scaleset"].name
+  target      = "branch"
+  enforcement = "active"
+
+  conditions {
+    ref_name {
+      include = ["~DEFAULT_BRANCH"]
+      exclude = []
+    }
+  }
+
+  # Allow org admins (e.g. the OpenTofu-managed automation in this repo) to
+  # push directly to main, bypassing the pull_request rule below.
+  bypass_actors {
+    actor_type  = "OrganizationAdmin"
+    bypass_mode = "always"
+  }
+
+  rules {
+    deletion = true
+
+    pull_request {}
+  }
+}
 resource "github_repository_ruleset" "homelab_cluster" {
   enforcement = "active"
   name        = "renovate-minimumReleaseAge"
