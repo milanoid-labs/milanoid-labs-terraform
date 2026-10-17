@@ -65,8 +65,12 @@ plane, not by the runner machine.
 ## Other OpenTofu repos (`tofu_repos.tf`)
 
 The same plan/apply role pair and the same four repo variables, generated for every
-repo in `local.tofu_repos`. **To onboard a new tofu repo, add its name there and
-apply locally**, with no copied `bootstrap/` folder in the new repo. Its workflows use
+repo in `local.tofu_repos`. **To onboard a new tofu repo, add its name and its OIDC
+subject prefix there and apply locally**, with no copied `bootstrap/` folder in the new repo.
+Get the prefix with `gh api repos/milanoid-labs/<repo>/actions/oidc/customization/sub -q .sub_claim_prefix`:
+repos created after 2026-07-15 use GitHub's immutable format
+(`repo:milanoid-labs@<org id>/<repo>@<repo id>`), older ones `repo:milanoid-labs/<repo>`.
+Use the wrong one and every CI run fails to assume the role. Its workflows use
 `vars.AWS_PLAN_ROLE_ARN` / `vars.AWS_APPLY_ROLE_ARN` / `vars.AWS_REGION` as usual,
 and its backend key must be `<repo>/terraform.tfstate`.
 
