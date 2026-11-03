@@ -20,6 +20,9 @@ locals {
     "nexus-config-terraform" = {
       oidc_sub_prefix = "repo:milanoid-labs@272012797/nexus-config-terraform@1423160851"
     }
+    "dependencytrack-config-terraform" = {
+      oidc_sub_prefix = "repo:milanoid-labs@272012797/dependencytrack-config-terraform@1444781835"
+    }
   }
 }
 
