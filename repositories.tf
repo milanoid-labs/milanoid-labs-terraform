@@ -149,6 +149,21 @@ locals {
       use_template = true
       dependabot   = false
     }
+    # Public: DependencyTrack config holds no secrets (the API key is a CI secret / local
+    # env file), and it doubles as a reference. CI runs on homelab-runners: DependencyTrack
+    # is LAN-only (http://dependencytrack.milanoid.net, homelab-cluster ingress).
+    "dependencytrack-config-terraform" = {
+      description  = "OpenTofu configuration for the homelab DependencyTrack (teams, projects, settings)"
+      visibility   = "public"
+      has_issues   = true
+      has_projects = false
+      has_wiki     = false
+      topics       = ["tofu", "terraform", "dependencytrack"]
+      is_template  = false
+      auto_init    = false
+      use_template = true
+      dependabot   = false
+    }
     # Public: VM-based GitHub Actions runners for the homelab (KubeVirt + actions/scaleset):
     # the runner VM disk image (vm-image/) and the autoscaler. No secrets in the repo; CI
     # runs on homelab-runners, which reach Nexus (192.168.1.204:8081) to push the image.
