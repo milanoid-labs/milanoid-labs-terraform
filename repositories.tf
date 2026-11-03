@@ -269,7 +269,15 @@ resource "github_workflow_repository_permissions" "home_dashboard" {
 # https://registry.terraform.io/providers/integrations/github/latest/docs/resources/app_installation_repository
 locals {
   renovate_installation_id = "119949905"
-  renovate_repositories    = ["homelab-cluster", "devops-study-app", "home-dashboard"]
+  # Renovate itself runs from homelab-cluster's CronJob, which lists the same repos
+  # explicitly (autodiscover is off); a repo needs both entries.
+  renovate_repositories = [
+    "homelab-cluster",
+    "devops-study-app",
+    "home-dashboard",
+    "kubevirt-scaleset",
+    "dependencytrack-config-terraform",
+  ]
 }
 
 resource "github_app_installation_repository" "renovate" {
