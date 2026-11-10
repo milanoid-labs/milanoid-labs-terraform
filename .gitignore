@@ -12,3 +12,6 @@ override.tf.json
 .terraformrc
 terraform.rc
 .idea/
+
+# Local direnv secrets (see .envrc)
+.envrc.local
