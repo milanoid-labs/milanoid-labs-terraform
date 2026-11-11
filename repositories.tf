@@ -164,6 +164,22 @@ locals {
       use_template = true
       dependabot   = false
     }
+    # Public: Hetzner resources (the Storage Box that holds the NAS's encrypted off-site
+    # backup, homelab-cluster #872). No secrets in the repo: the Hetzner API token is a CI
+    # secret / local env file, and generated passwords live only in the S3 state. CI runs
+    # on homelab-runners, like the other tofu repos.
+    "milanoid-hetzner-terraform" = {
+      description  = "OpenTofu configuration for Hetzner resources (Storage Box for the NAS off-site backup)"
+      visibility   = "public"
+      has_issues   = true
+      has_projects = false
+      has_wiki     = false
+      topics       = ["tofu", "terraform", "hetzner"]
+      is_template  = false
+      auto_init    = false
+      use_template = true
+      dependabot   = false
+    }
     # Public: VM-based GitHub Actions runners for the homelab (KubeVirt + actions/scaleset):
     # the runner VM disk image (vm-image/) and the autoscaler. No secrets in the repo; CI
     # runs on homelab-runners, which reach Nexus (192.168.1.204:8081) to push the image.

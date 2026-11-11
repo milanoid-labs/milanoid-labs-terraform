@@ -105,6 +105,34 @@ resource "github_repository_ruleset" "dependencytrack_config_terraform_main" {
     pull_request {}
   }
 }
+# Public, so the free plan enforces this: a push to main runs tofu apply against Hetzner,
+# where the Storage Box holds the NAS's only off-site backup.
+resource "github_repository_ruleset" "milanoid_hetzner_terraform_main" {
+  name        = "main"
+  repository  = github_repository.this["milanoid-hetzner-terraform"].name
+  target      = "branch"
+  enforcement = "active"
+
+  conditions {
+    ref_name {
+      include = ["~DEFAULT_BRANCH"]
+      exclude = []
+    }
+  }
+
+  # Allow org admins (e.g. the OpenTofu-managed automation in this repo) to
+  # push directly to main, bypassing the pull_request rule below.
+  bypass_actors {
+    actor_type  = "OrganizationAdmin"
+    bypass_mode = "always"
+  }
+
+  rules {
+    deletion = true
+
+    pull_request {}
+  }
+}
 # Public, so the free plan enforces this: a push to main builds and publishes the runner VM image.
 resource "github_repository_ruleset" "kubevirt_scaleset_main" {
   name        = "main"
