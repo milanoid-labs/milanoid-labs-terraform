@@ -293,6 +293,7 @@ locals {
     "home-dashboard",
     "kubevirt-scaleset",
     "dependencytrack-config-terraform",
+    "milanoid-hetzner-terraform",
   ]
 }
 
