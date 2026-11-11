@@ -23,6 +23,9 @@ locals {
     "dependencytrack-config-terraform" = {
       oidc_sub_prefix = "repo:milanoid-labs@272012797/dependencytrack-config-terraform@1444781835"
     }
+    "milanoid-hetzner-terraform" = {
+      oidc_sub_prefix = "repo:milanoid-labs@272012797/milanoid-hetzner-terraform@1454103605"
+    }
   }
 }
 
